@@ -4,7 +4,7 @@
 
 Publisher: CrowdSec  
 Contributors: N/A  
-App Version: 5.3.0  
+App Version: 5.5.0  
 Product Vendor: CrowdSec  
 Product Name: CrowdSec  
 Product Version Supported (regex): ".*"  
@@ -158,6 +158,18 @@ Read only: **True**
 
 <tr>
 
+<td>action_result.data.*.ip_range_score</td>
+
+<td>string</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
 <td>action_result.data.*.ip</td>
 
 <td>string</td>
@@ -194,6 +206,18 @@ Read only: **True**
 
 <tr>
 
+<td>action_result.data.*.as_num</td>
+
+<td>string</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
 <td>action_result.data.*.location.country</td>
 
 <td>string</td>
@@ -207,6 +231,30 @@ Read only: **True**
 <tr>
 
 <td>action_result.data.*.location.city</td>
+
+<td>string</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.location.latitude</td>
+
+<td>string</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.location.longitude</td>
 
 <td>string</td>
 
@@ -290,7 +338,7 @@ Read only: **True**
 
 <tr>
 
-<td>action_result.data.*.classifications.classifications.*.name</td>
+<td>action_result.data.*.history.full_age</td>
 
 <td>string</td>
 
@@ -302,7 +350,7 @@ Read only: **True**
 
 <tr>
 
-<td>action_result.data.*.classifications.classifications.*.label</td>
+<td>action_result.data.*.history.days_age</td>
 
 <td>string</td>
 
@@ -314,7 +362,7 @@ Read only: **True**
 
 <tr>
 
-<td>action_result.data.*.classifications.classifications.*.description</td>
+<td>action_result.data.*.background_noise_score</td>
 
 <td>string</td>
 
@@ -326,9 +374,9 @@ Read only: **True**
 
 <tr>
 
-<td>action_result.data.*.attack_details.*.label</td>
+<td>action_result.data.*.scores.overall.aggressiveness</td>
 
-<td>string</td>
+<td>numeric</td>
 
 <td></td>
 
@@ -338,9 +386,141 @@ Read only: **True**
 
 <tr>
 
-<td>action_result.data.*.attack_details.*.description</td>
+<td>action_result.data.*.scores.overall.threat</td>
 
-<td>string</td>
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.overall.trust</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.overall.anomaly</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.overall.total</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.last_day.aggressiveness</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.last_day.threat</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.last_day.trust</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.last_day.anomaly</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.last_day.total</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.last_week.aggressiveness</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.last_month.threat</td>
+
+<td>numeric</td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>action_result.data.*.scores.last_month.aggressiveness</td>
+
+<td>numeric</td>
 
 <td></td>
 
