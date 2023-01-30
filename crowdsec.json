@@ -1,1 +1,299 @@
-{"appid": "ef688fae-3359-4e3c-983b-484c67419cd1", "name": "CrowdSec", "description": "CrowdSec", "type": "network security", "product_vendor": "CrowdSec", "logo": "crowdsec.png", "logo_dark": "crowdsec_dark.png", "product_name": "CrowdSec", "python_version": "3", "product_version_regex": ".*", "publisher": "CrowdSec", "license": "Copyright (c) CrowdSec, 2023", "app_version": "5.2.0", "utctime_updated": "2023-01-26T06:55:03.160848Z", "package_name": "phantom_crowdsec", "main_module": "crowdsec_connector.py", "min_phantom_version": "5.5.0.108488", "app_wizard_version": "1.0.0", "configuration": {"CROWDSEC_CTI_API_KEY": {"description": "API key for CrowdSec CTI API", "data_type": "string", "required": true, "value_list": [], "default": "", "order": 0, "name": "CROWDSEC_CTI_API_KEY", "id": 0}}, "actions": [{"action": "test connectivity", "identifier": "test_connectivity", "description": "Validate the asset configuration for connectivity using supplied configuration", "verbose": "", "type": "test", "read_only": true, "parameters": {}, "output": [], "versions": "EQ(*)"}, {"action": "lookup ip", "identifier": "lookup_ip", "description": "Check for the presence of an IP in a threat intelligence feed", "verbose": "", "type": "investigate", "read_only": true, "parameters": {"ip": {"description": "IP to lookup", "data_type": "string", "required": true, "primary": true, "contains": ["ip"], "value_list": [], "default": "", "order": 0, "name": "ip"}}, "output": [{"data_path": "action_result.parameter.ip", "data_type": "string", "contains": ["ip"], "column_name": "ip", "column_order": 0}, {"data_path": "action_result.status", "data_type": "string", "column_name": "status", "column_order": 1}, {"data_path": "action_result.message", "data_type": "string"}, {"data_path": "action_result.data.*.location.country", "data_type": "string", "column_name": "Country", "column_order": 2}, {"data_path": "action_result.data.*.attack_details.*.name", "data_type": "string", "column_name": "Scenario", "column_order": 3}, {"data_path": "summary.total_objects", "data_type": "numeric"}, {"data_path": "summary.total_objects_successful", "data_type": "numeric"}], "render": {"width": 4, "height": 5, "type": "custom", "title": "Lookup IP", "view": "crowdsec_view.display_view"}, "versions": "EQ(*)"}], "custom_made": true, "directory": "crowdsec_ef688fae-3359-4e3c-983b-484c67419cd1", "version": 1, "appname": "-", "executable": "spawn3", "disabled": false, "copied_from_id": 183, "copied_from_version": "5.1.0"}
+{
+    "appid": "ef688fae-3359-4e3c-983b-484c67419cd1",
+    "name": "CrowdSec",
+    "description": "CrowdSec",
+    "type": "network security",
+    "product_vendor": "CrowdSec",
+    "logo": "crowdsec.png",
+    "logo_dark": "crowdsec_dark.png",
+    "product_name": "CrowdSec",
+    "python_version": "3",
+    "product_version_regex": ".*",
+    "publisher": "CrowdSec",
+    "license": "Copyright (c) CrowdSec, 2023",
+    "app_version": "5.3.0",
+    "utctime_updated": "2023-01-26T06:55:03.160848Z",
+    "package_name": "phantom_crowdsec",
+    "main_module": "crowdsec_connector.py",
+    "min_phantom_version": "5.5.0.108488",
+    "app_wizard_version": "1.0.0",
+    "configuration": {
+        "CROWDSEC_CTI_API_KEY": {
+            "description": "API key for CrowdSec CTI API",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "",
+            "order": 0,
+            "name": "CROWDSEC_CTI_API_KEY",
+            "id": 0
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "verbose": "",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "lookup ip",
+            "identifier": "lookup_ip",
+            "description": "Check for the presence of an IP in a threat intelligence feed",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "ip": {
+                    "description": "IP to lookup",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "ip"
+                    ],
+                    "value_list": [],
+                    "default": "",
+                    "order": 0,
+                    "name": "ip"
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.ip",
+                    "data_type": "string",
+                    "contains": [
+                        "ip"
+                    ],
+                    "column_name": "ip",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ip_range_score",
+                    "data_type": "string",
+                    "column_name": "IP Range Score",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.ip",
+                    "data_type": "string",
+                    "column_name": "IP",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.ip_range",
+                    "data_type": "string",
+                    "column_name": "IP Range",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.as_name",
+                    "data_type": "string",
+                    "column_name": "AS Name",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.as_num",
+                    "data_type": "string",
+                    "column_name": "AS Number",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.location.country",
+                    "data_type": "string",
+                    "column_name": "Location Country",
+                    "column_order": 7
+                },
+                {
+                    "data_path": "action_result.data.*.location.city",
+                    "data_type": "string",
+                    "column_name": "Location City",
+                    "column_order": 8
+                },
+                {
+                    "data_path": "action_result.data.*.location.latitude",
+                    "data_type": "string",
+                    "column_name": "Location Latitude",
+                    "column_order": 9
+                },
+                {
+                    "data_path": "action_result.data.*.location.longitude",
+                    "data_type": "string",
+                    "column_name": "Location Longitude",
+                    "column_order": 10
+                },
+                {
+                    "data_path": "action_result.data.*.reverse_dns",
+                    "data_type": "string",
+                    "column_name": "Reverse DNS",
+                    "column_order": 11
+                },
+                {
+                    "data_path": "action_result.data.*.behaviors.*.name",
+                    "data_type": "string",
+                    "column_name": "Behavior Name",
+                    "column_order": 12
+                },
+                {
+                    "data_path": "action_result.data.*.behaviors.*.label",
+                    "data_type": "string",
+                    "column_name": "Behavior Label",
+                    "column_order": 13
+                },
+                {
+                    "data_path": "action_result.data.*.behaviors.*.description",
+                    "data_type": "string",
+                    "column_name": "Behavior Description",
+                    "column_order": 14
+                },
+                {
+                    "data_path": "action_result.data.*.history.first_seen",
+                    "data_type": "string",
+                    "column_name": "First seen",
+                    "column_order": 15
+                },
+                {
+                    "data_path": "action_result.data.*.history.last_seen",
+                    "data_type": "string",
+                    "column_name": "Last seen",
+                    "column_order": 16
+                },
+                {
+                    "data_path": "action_result.data.*.history.full_age",
+                    "data_type": "string",
+                    "column_name": "Full age",
+                    "column_order": 17
+                },
+                {
+                    "data_path": "action_result.data.*.history.days_age",
+                    "data_type": "string",
+                    "column_name": "Days age",
+                    "column_order": 18
+                },
+                {
+                    "data_path": "action_result.data.*.background_noise_score",
+                    "data_type": "string",
+                    "column_name": "Background noise score",
+                    "column_order": 19
+                },
+                {
+                    "data_path": "action_result.data.*.scores.overall.aggressiveness",
+                    "data_type": "numeric",
+                    "column_name": "Aggressiveness (Overall)",
+                    "column_order": 20
+                },
+                {
+                    "data_path": "action_result.data.*.scores.overall.threat",
+                    "data_type": "numeric",
+                    "column_name": "Threat (Overall)",
+                    "column_order": 21
+                },
+                {
+                    "data_path": "action_result.data.*.scores.overall.trust",
+                    "data_type": "numeric",
+                    "column_name": "Trust (Overall)",
+                    "column_order": 22
+                },
+                {
+                    "data_path": "action_result.data.*.scores.overall.anomaly",
+                    "data_type": "numeric",
+                    "column_name": "Anomaly (Overall)",
+                    "column_order": 23
+                },
+                {
+                    "data_path": "action_result.data.*.scores.overall.total",
+                    "data_type": "numeric",
+                    "column_name": "Total (Overall)",
+                    "column_order": 24
+                },
+                {
+                    "data_path": "action_result.data.*.scores.last_day.aggressiveness",
+                    "data_type": "numeric",
+                    "column_name": "Aggressiveness (Last Day)",
+                    "column_order": 25
+                },
+                {
+                    "data_path": "action_result.data.*.scores.last_day.threat",
+                    "data_type": "numeric",
+                    "column_name": "Threat (Last Day)",
+                    "column_order": 26
+                },
+                {
+                    "data_path": "action_result.data.*.scores.last_day.trust",
+                    "data_type": "numeric",
+                    "column_name": "Trust (Last Day)",
+                    "column_order": 27
+                },
+                {
+                    "data_path": "action_result.data.*.scores.last_day.anomaly",
+                    "data_type": "numeric",
+                    "column_name": "Anomaly (Last Day)",
+                    "column_order": 28
+                },
+                {
+                    "data_path": "action_result.data.*.scores.last_day.total",
+                    "data_type": "numeric",
+                    "column_name": "Total (Last Day)",
+                    "column_order": 29
+                },
+                {
+                    "data_path": "action_result.data.*.scores.last_week.aggressiveness",
+                    "data_type": "numeric",
+                    "column_name": "Aggressiveness (Last Week)",
+                    "column_order": 30
+                },
+                {
+                    "data_path": "action_result.data.*.scores.last_month.threat",
+                    "data_type": "numeric",
+                    "column_name": "Threat (Last Month)",
+                    "column_order": 31
+                },
+                {
+                    "data_path": "action_result.data.*.scores.last_month.aggressiveness",
+                    "data_type": "numeric",
+                    "column_name": "Aggressiveness (Last Month)",
+                    "column_order": 32
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "width": 4,
+                "height": 5,
+                "type": "custom",
+                "title": "Lookup IP",
+                "view": "crowdsec_view.display_view"
+            },
+            "versions": "EQ(*)"
+        }
+    ],
+    "custom_made": true,
+    "directory": "crowdsec_ef688fae-3359-4e3c-983b-484c67419cd1",
+    "version": 1,
+    "appname": "-",
+    "executable": "spawn3",
+    "disabled": false,
+    "copied_from_id": 183,
+    "copied_from_version": "5.1.0"
+}
