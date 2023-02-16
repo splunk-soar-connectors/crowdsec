@@ -69,14 +69,16 @@ class CrowdsecConnector(BaseConnector):
 
     def _process_json_response(self, r, action_result):
         # Try a json parse
+        resp_json = {}
         try:
             resp_json = r.json()
         except Exception as e:
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, "Unable to parse JSON response. Error: {0}".format(str(e))
-                ), None
-            )
+            if r.url != "https://cti.api.crowdsec.net/v2/check":
+                return RetVal(
+                    action_result.set_status(
+                        phantom.APP_ERROR, "Unable to parse JSON response. Error: {0}".format(str(e))
+                    ), None
+                )
 
         # Please specify the status codes here
         if 200 <= r.status_code < 399:
@@ -87,6 +89,9 @@ class CrowdsecConnector(BaseConnector):
             r.status_code,
             r.text.replace(u'{', '{{').replace(u'}', '}}')
         )
+        
+        if r.status_code == 429:
+            message = "Quota exceeded for CrowdSec CTI API. Please visit https://www.crowdsec.net/pricing to upgrade your plan."
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
@@ -167,22 +172,20 @@ class CrowdsecConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
         # make rest call
+
         ret_val, response = self._make_rest_call(
-            '/endpoint', action_result, params=None, headers=None
+            f'/check', action_result, params=None, headers={"x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"]}
         )
 
         if phantom.is_fail(ret_val):
             # the call to the 3rd party device or service failed, action result should contain all the error details
             # for now the return is commented out, but after implementation, return from here
             self.save_progress("Test Connectivity Failed.")
-            # return action_result.get_status()
+            return action_result.get_status()
 
         # Return success
-        # self.save_progress("Test Connectivity Passed")
-        # return action_result.set_status(phantom.APP_SUCCESS)
-
-        # For now return Error with a message, in case of success we don't set the message, but use the summary
-        return action_result.set_status(phantom.APP_ERROR, "Action not yet implemented")
+        self.save_progress("Test Connectivity Passed")
+        return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_lookup_ip(self, param):
         # Implement the handler here
@@ -208,18 +211,12 @@ class CrowdsecConnector(BaseConnector):
         if phantom.is_fail(ret_val):
             # the call to the 3rd party device or service failed, action result should contain all the error details
             # for now the return is commented out, but after implementation, return from here
-            # return action_result.get_status()
-            pass
+            return action_result.get_status()
 
         # Now post process the data,  uncomment code as you deem fit
 
         # Add the response into the data section
         action_result.add_data(response)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-        print(response)
-        summary['Country'] = response["location"]["country"]
 
         # Return success, no need to set the message, only the status
         # BaseConnector will create a textual message based off of the summary dictionary
