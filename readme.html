@@ -1,0 +1,564 @@
+<div id="doc">
+    <!-- APP HEADER SECTION -->
+    <h1 class="border-bottom">CrowdSec</h1>
+    <p>
+      Publisher: CrowdSec<br>
+      Contributors:
+      
+        N/A
+      <br>
+      App Version: 1.0.0<br>
+      
+      Product Vendor: CrowdSec<br>
+      Product Name: CrowdSec<br>
+      Product Version Supported (regex): ".*"<br>
+      
+    </p>
+    <p>CrowdSec</p><p>
+    
+    
+    
+     &lt;html&gt;
+      &lt;head&gt;&lt;/head&gt;
+      &lt;body&gt;Replace this text in the app's <b>readme.html</b> to contain more detailed information&lt;/body&gt;
+    &lt;/html&gt;
+     
+    
+    
+    <style>
+    
+    tr.plain th {
+       text-align: center;
+    }
+    
+    </style>
+    
+    <!-- CONFIGURATION SECTION -->
+    
+    
+      </p><h3>Configuration Variables</h3>
+      <p>The below configuration variables are required for this App to operate on <b>CrowdSec</b>. These are specified when configuring an asset in Splunk SOAR.</p>
+    
+      <table>
+        <tbody><tr class="plain">
+          <th style="padding-right:5px;">VARIABLE</th>
+          <th style="padding-right:5px;">REQUIRED</th>
+          <th style="padding-right:5px;">TYPE</th>
+          <th>DESCRIPTION</th>
+        </tr>
+        
+          
+          <tr>
+          <td><b>CROWDSEC_CTI_API_KEY</b></td>
+          <td>
+            
+              required
+            
+          </td>
+          <td>string</td>
+          <td>API key for CrowdSec CTI API</td>
+        </tr>
+        
+        
+        </tbody></table>
+    
+    
+    <!-- APP CONFIG SECTION -->
+    
+    
+    
+    <!-- ACTIONS SECTION -->
+    
+    
+      <h3>Supported Actions</h3>
+      <p>
+      
+          <a href="#" onclick="load('crowdsec_ef688fae-3359-4e3c-983b-484c67419cd1', 'lookup-ip'); return false;">
+            <span class="link">lookup ip</span>
+          </a> - Check for the presence of an IP in a threat intelligence feed<br>
+      
+          <a href="#" onclick="load('crowdsec_ef688fae-3359-4e3c-983b-484c67419cd1', 'test-connectivity'); return false;">
+            <span class="link">test connectivity</span>
+          </a> - Validate the asset configuration for connectivity using supplied configuration<br>
+      
+      </p>
+    
+      
+        <a id="lookup-ip"></a>
+        <h2 class="automation">
+          action: 'lookup ip'
+        </h2>
+        <p>Check for the presence of an IP in a threat intelligence feed</p>
+        <p>Type: <b>investigate</b></p>
+        <p>Read only: <b>True</b></p>
+        <p>  </p>
+    
+        <h3>Action Parameters</h3>
+        
+            <table>
+              <tbody><tr class="plain">
+                <th style="padding-right:5px;">PARAMETER</th>
+                <th style="padding-right:5px;">REQUIRED</th>
+                <th style="padding-right:5px;">DESCRIPTION</th>
+                <th style="padding-right:5px;">TYPE</th>
+                <th>CONTAINS</th>
+              </tr>
+              
+                
+                <tr>
+                <td><b>ip</b></td>
+                <td>
+                
+                  required
+                
+                </td>
+                <td>
+                
+                  IP to lookup
+                
+                </td>
+                <td>string</td>
+                <td>
+                
+                  <span class="highlight">ip</span>
+                
+                </td>
+                </tr>
+                
+              
+            </tbody></table>
+        
+    
+        <h3>Action Output</h3>
+        
+        <table>
+            <tbody><tr class="plain">
+              <th>DATA PATH</th>
+              <th>TYPE</th>
+              <th>CONTAINS</th>
+              <th>EXAMPLE VALUES</th>
+            </tr>
+            
+              <tr>
+                <td>action_result.parameter.ip</td>
+                <td>string</td>
+                <td>
+                
+                  <span class="highlight">ip</span>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.status</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.message</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.ip_range_score</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.ip</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.ip_range</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.as_name</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.as_num</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.location.country</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.location.city</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.location.latitude</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.location.longitude</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.reverse_dns</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.behaviors.*.name</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.behaviors.*.label</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.behaviors.*.description</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.history.first_seen</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.history.last_seen</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.history.full_age</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.history.days_age</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.background_noise_score</td>
+                <td>string</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.overall.aggressiveness</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.overall.threat</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.overall.trust</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.overall.anomaly</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.overall.total</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.last_day.aggressiveness</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.last_day.threat</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.last_day.trust</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.last_day.anomaly</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.last_day.total</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.last_week.aggressiveness</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.last_month.threat</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>action_result.data.*.scores.last_month.aggressiveness</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>summary.total_objects</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+              <tr>
+                <td>summary.total_objects_successful</td>
+                <td>numeric</td>
+                <td>
+                
+                </td>
+                <td>
+                
+                </td>
+              </tr>
+            
+          </tbody></table>
+        
+      
+        <a id="test-connectivity"></a>
+        <h2 class="automation">
+          action: 'test connectivity'
+        </h2>
+        <p>Validate the asset configuration for connectivity using supplied configuration</p>
+        <p>Type: <b>test</b></p>
+        <p>Read only: <b>True</b></p>
+        <p>  </p>
+    
+        <h3>Action Parameters</h3>
+        
+          <p>No parameters are required for this action</p>
+        
+    
+        <h3>Action Output</h3>
+        
+          <p>No Output</p>
+        
+      
+    
+    
+    </div>
