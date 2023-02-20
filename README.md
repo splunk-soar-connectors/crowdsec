@@ -4,7 +4,7 @@
 
 Publisher: CrowdSec  
 Contributors: N/A  
-App Version: 5.5.0  
+App Version: 1.0.0
 Product Vendor: CrowdSec  
 Product Name: CrowdSec  
 Product Version Supported (regex): ".*"  

@@ -174,7 +174,7 @@ class CrowdsecConnector(BaseConnector):
         # make rest call
 
         ret_val, response = self._make_rest_call(
-            f'/check', action_result, params=None, headers={"x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"]}
+            f'/check', action_result, params=None, headers={"User-Agent": "crowdsec-splunk-soar/v1.0.0", "x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"]}
         )
 
         if phantom.is_fail(ret_val):
@@ -205,7 +205,7 @@ class CrowdsecConnector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_rest_call(
-            f'/smoke/{ip}', action_result, params=None, headers={"x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"]}
+            f'/smoke/{ip}', action_result, params=None, headers={"User-Agent": "crowdsec-splunk-soar/v1.0.0", "x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"]}
         )
 
         if phantom.is_fail(ret_val):
