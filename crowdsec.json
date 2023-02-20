@@ -1,11 +1,11 @@
 {
     "appid": "ef688fae-3359-4e3c-983b-484c67419cd1",
     "name": "CrowdSec",
-    "description": "CrowdSec",
+    "description": "Splunk SOAR App which integrates with CrowdSec. It provides the ability to lookup an IP address in CrowdSec's threat intelligence feed",
     "type": "network security",
     "product_vendor": "CrowdSec",
-    "logo": "crowdsec.png",
-    "logo_dark": "crowdsec_dark.png",
+    "logo": "CrowdSec.svg",
+    "logo_dark": "CrowdSec.svg",
     "product_name": "CrowdSec",
     "python_version": "3",
     "product_version_regex": ".*",
@@ -34,7 +34,6 @@
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "",
             "type": "test",
             "read_only": true,
             "parameters": {},
@@ -45,7 +44,6 @@
             "action": "lookup ip",
             "identifier": "lookup_ip",
             "description": "Check for the presence of an IP in a threat intelligence feed",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -293,7 +291,5 @@
     "version": 1,
     "appname": "-",
     "executable": "spawn3",
-    "disabled": false,
-    "copied_from_id": 183,
-    "copied_from_version": "5.1.0"
+    "disabled": false
 }

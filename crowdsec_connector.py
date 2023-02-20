@@ -7,28 +7,25 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
+import json
+
 # Phantom App imports
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-
 # Usage of the consts file is recommended
 # from crowdsec_consts import *
 import requests
-import json
 from bs4 import BeautifulSoup
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
 
 
 class RetVal(tuple):
-
     def __new__(cls, val1, val2=None):
         return tuple.__new__(RetVal, (val1, val2))
 
 
 class CrowdsecConnector(BaseConnector):
-
     def __init__(self):
-
         # Call the BaseConnectors init first
         super(CrowdsecConnector, self).__init__()
 
@@ -46,7 +43,8 @@ class CrowdsecConnector(BaseConnector):
         return RetVal(
             action_result.set_status(
                 phantom.APP_ERROR, "Empty response and no information in the header"
-            ), None
+            ),
+            None,
         )
 
     def _process_html_response(self, response, action_result):
@@ -56,15 +54,17 @@ class CrowdsecConnector(BaseConnector):
         try:
             soup = BeautifulSoup(response.text, "html.parser")
             error_text = soup.text
-            split_lines = error_text.split('\n')
+            split_lines = error_text.split("\n")
             split_lines = [x.strip() for x in split_lines if x.strip()]
-            error_text = '\n'.join(split_lines)
+            error_text = "\n".join(split_lines)
         except:
             error_text = "Cannot parse error details"
 
-        message = "Status Code: {0}. Data from server:\n{1}\n".format(status_code, error_text)
+        message = "Status Code: {0}. Data from server:\n{1}\n".format(
+            status_code, error_text
+        )
 
-        message = message.replace(u'{', '{{').replace(u'}', '}}')
+        message = message.replace("{", "{{").replace("}", "}}")
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
     def _process_json_response(self, r, action_result):
@@ -76,8 +76,10 @@ class CrowdsecConnector(BaseConnector):
             if r.url != "https://cti.api.crowdsec.net/v2/check":
                 return RetVal(
                     action_result.set_status(
-                        phantom.APP_ERROR, "Unable to parse JSON response. Error: {0}".format(str(e))
-                    ), None
+                        phantom.APP_ERROR,
+                        "Unable to parse JSON response. Error: {0}".format(str(e)),
+                    ),
+                    None,
                 )
 
         # Please specify the status codes here
@@ -86,10 +88,9 @@ class CrowdsecConnector(BaseConnector):
 
         # You should process the error returned in the json
         message = "Error from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code,
-            r.text.replace(u'{', '{{').replace(u'}', '}}')
+            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
         )
-        
+
         if r.status_code == 429:
             message = "Quota exceeded for CrowdSec CTI API. Please visit https://www.crowdsec.net/pricing to upgrade your plan."
 
@@ -97,22 +98,22 @@ class CrowdsecConnector(BaseConnector):
 
     def _process_response(self, r, action_result):
         # store the r_text in debug data, it will get dumped in the logs if the action fails
-        if hasattr(action_result, 'add_debug_data'):
-            action_result.add_debug_data({'r_status_code': r.status_code})
-            action_result.add_debug_data({'r_text': r.text})
-            action_result.add_debug_data({'r_headers': r.headers})
+        if hasattr(action_result, "add_debug_data"):
+            action_result.add_debug_data({"r_status_code": r.status_code})
+            action_result.add_debug_data({"r_text": r.text})
+            action_result.add_debug_data({"r_headers": r.headers})
 
         # Process each 'Content-Type' of response separately
 
         # Process a json response
-        if 'json' in r.headers.get('Content-Type', ''):
+        if "json" in r.headers.get("Content-Type", ""):
             return self._process_json_response(r, action_result)
 
         # Process an HTML response, Do this no matter what the api talks.
         # There is a high chance of a PROXY in between phantom and the rest of
         # world, in case of errors, PROXY's return HTML, this function parses
         # the error and adds it to the action_result.
-        if 'html' in r.headers.get('Content-Type', ''):
+        if "html" in r.headers.get("Content-Type", ""):
             return self._process_html_response(r, action_result)
 
         # it's not content-type that is to be parsed, handle an empty response
@@ -121,8 +122,7 @@ class CrowdsecConnector(BaseConnector):
 
         # everything else is actually an error at this point
         message = "Can't process response from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code,
-            r.text.replace('{', '{{').replace('}', '}}')
+            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
         )
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
@@ -138,8 +138,10 @@ class CrowdsecConnector(BaseConnector):
             request_func = getattr(requests, method)
         except AttributeError:
             return RetVal(
-                action_result.set_status(phantom.APP_ERROR, "Invalid method: {0}".format(method)),
-                resp_json
+                action_result.set_status(
+                    phantom.APP_ERROR, "Invalid method: {0}".format(method)
+                ),
+                resp_json,
             )
 
         # Create a URL to connect to
@@ -149,14 +151,16 @@ class CrowdsecConnector(BaseConnector):
             r = request_func(
                 url,
                 # auth=(username, password),  # basic authentication
-                verify=config.get('verify_server_cert', False),
-                **kwargs
+                verify=config.get("verify_server_cert", False),
+                **kwargs,
             )
         except Exception as e:
             return RetVal(
                 action_result.set_status(
-                    phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(str(e))
-                ), resp_json
+                    phantom.APP_ERROR,
+                    "Error Connecting to server. Details: {0}".format(str(e)),
+                ),
+                resp_json,
             )
 
         return self._process_response(r, action_result)
@@ -174,7 +178,13 @@ class CrowdsecConnector(BaseConnector):
         # make rest call
 
         ret_val, response = self._make_rest_call(
-            f'/check', action_result, params=None, headers={"User-Agent": "crowdsec-splunk-soar/v1.0.0", "x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"]}
+            "/check",
+            action_result,
+            params=None,
+            headers={
+                "User-Agent": "crowdsec-splunk-soar/v1.0.0",
+                "x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"],
+            },
         )
 
         if phantom.is_fail(ret_val):
@@ -190,7 +200,9 @@ class CrowdsecConnector(BaseConnector):
     def _handle_lookup_ip(self, param):
         # Implement the handler here
         # use self.save_progress(...) to send progress messages back to the platform
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(
+            "In action handler for: {0}".format(self.get_action_identifier())
+        )
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -198,21 +210,30 @@ class CrowdsecConnector(BaseConnector):
         # Access action parameters passed in the 'param' dictionary
 
         # Required values can be accessed directly
-        ip = param['ip']
+        ip = param["ip"]
 
         # Optional values should use the .get() function
         # optional_parameter = param.get('optional_parameter', 'default_value')
 
         # make rest call
+        self.save_progress("Calling CrowdSec CTI API")
         ret_val, response = self._make_rest_call(
-            f'/smoke/{ip}', action_result, params=None, headers={"User-Agent": "crowdsec-splunk-soar/v1.0.0", "x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"]}
+            f"/smoke/{ip}",
+            action_result,
+            params=None,
+            headers={
+                "User-Agent": "crowdsec-splunk-soar/v1.0.0",
+                "x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"],
+            },
         )
 
         if phantom.is_fail(ret_val):
             # the call to the 3rd party device or service failed, action result should contain all the error details
             # for now the return is commented out, but after implementation, return from here
+            self.save_progress("Call to CrowdSec CTI API failed.")
             return action_result.get_status()
 
+        self.save_progress("Call to CrowdSec CTI API succeeded")
         # Now post process the data,  uncomment code as you deem fit
 
         # Add the response into the data section
@@ -233,10 +254,10 @@ class CrowdsecConnector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        if action_id == 'lookup_ip':
+        if action_id == "lookup_ip":
             ret_val = self._handle_lookup_ip(param)
 
-        if action_id == 'test_connectivity':
+        if action_id == "test_connectivity":
             ret_val = self._handle_test_connectivity(param)
 
         return ret_val
@@ -247,7 +268,6 @@ class CrowdsecConnector(BaseConnector):
         self._state = self.load_state()
 
         # get the asset config
-        config = self.get_config()
         """
         # Access values in asset config by the name
 
@@ -273,9 +293,9 @@ def main():
 
     argparser = argparse.ArgumentParser()
 
-    argparser.add_argument('input_test_json', help='Input Test JSON file')
-    argparser.add_argument('-u', '--username', help='username', required=False)
-    argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument("input_test_json", help="Input Test JSON file")
+    argparser.add_argument("-u", "--username", help="username", required=False)
+    argparser.add_argument("-p", "--password", help="password", required=False)
 
     args = argparser.parse_args()
     session_id = None
@@ -284,31 +304,31 @@ def main():
     password = args.password
 
     if username is not None and password is None:
-
         # User specified a username but not a password, so ask
         import getpass
+
         password = getpass.getpass("Password: ")
 
     if username and password:
         try:
-            login_url = CrowdsecConnector._get_phantom_base_url() + '/login'
+            login_url = CrowdsecConnector._get_phantom_base_url() + "/login"
 
             print("Accessing the Login page")
             r = requests.get(login_url, verify=False)
-            csrftoken = r.cookies['csrftoken']
+            csrftoken = r.cookies["csrftoken"]
 
             data = dict()
-            data['username'] = username
-            data['password'] = password
-            data['csrfmiddlewaretoken'] = csrftoken
+            data["username"] = username
+            data["password"] = password
+            data["csrfmiddlewaretoken"] = csrftoken
 
             headers = dict()
-            headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = login_url
+            headers["Cookie"] = "csrftoken=" + csrftoken
+            headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=False, data=data, headers=headers)
-            session_id = r2.cookies['sessionid']
+            session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
@@ -322,8 +342,8 @@ def main():
         connector.print_progress_message = True
 
         if session_id is not None:
-            in_json['user_session_token'] = session_id
-            connector._set_csrf_info(csrftoken, headers['Referer'])
+            in_json["user_session_token"] = session_id
+            connector._set_csrf_info(csrftoken, headers["Referer"])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
@@ -331,5 +351,5 @@ def main():
     exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
