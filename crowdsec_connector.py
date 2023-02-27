@@ -1,8 +1,17 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# -----------------------------------------
-# Phantom sample App Connector python file
-# -----------------------------------------
+# File: crowdsec_connector.py
+#
+# Copyright (c) 2023 CrowdSec
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
 
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
@@ -12,7 +21,7 @@ import json
 # Phantom App imports
 import phantom.app as phantom
 # Usage of the consts file is recommended
-# from crowdsec_consts import *
+from crowdsec_consts import *
 import requests
 from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
@@ -35,6 +44,8 @@ class CrowdsecConnector(BaseConnector):
         # Do note that the app json defines the asset config, so please
         # modify this as you deem fit.
         self._base_url = None
+        self._apikey = None
+        self._timeout = None
 
     def _process_empty_response(self, response, action_result):
         if response.status_code == 200:
@@ -53,11 +64,14 @@ class CrowdsecConnector(BaseConnector):
 
         try:
             soup = BeautifulSoup(response.text, "html.parser")
+            # Remove the script, style, footer and navigation part from the HTML message
+            for element in soup(["script", "style", "footer", "nav"]):
+                element.extract()
             error_text = soup.text
             split_lines = error_text.split("\n")
             split_lines = [x.strip() for x in split_lines if x.strip()]
             error_text = "\n".join(split_lines)
-        except:
+        except Exception:
             error_text = "Cannot parse error details"
 
         message = "Status Code: {0}. Data from server:\n{1}\n".format(
@@ -73,7 +87,7 @@ class CrowdsecConnector(BaseConnector):
         try:
             resp_json = r.json()
         except Exception as e:
-            if r.url != "https://cti.api.crowdsec.net/v2/check":
+            if r.url != "{}/check".format(CROWDSEC_BASE_URL):
                 return RetVal(
                     action_result.set_status(
                         phantom.APP_ERROR,
@@ -145,13 +159,14 @@ class CrowdsecConnector(BaseConnector):
             )
 
         # Create a URL to connect to
-        url = self._base_url + endpoint
+        url = "{}{}".format(self._base_url, endpoint)
 
         try:
             r = request_func(
                 url,
                 # auth=(username, password),  # basic authentication
                 verify=config.get("verify_server_cert", False),
+                timeout=self._timeout,
                 **kwargs,
             )
         except Exception as e:
@@ -182,15 +197,15 @@ class CrowdsecConnector(BaseConnector):
             action_result,
             params=None,
             headers={
-                "User-Agent": "crowdsec-splunk-soar/v1.0.0",
-                "x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"],
+                "User-Agent": CROWDSEC_USER_AGENT,
+                "x-api-key": self._apikey,
             },
         )
 
         if phantom.is_fail(ret_val):
             # the call to the 3rd party device or service failed, action result should contain all the error details
             # for now the return is commented out, but after implementation, return from here
-            self.save_progress("Test Connectivity Failed.")
+            self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
 
         # Return success
@@ -222,15 +237,15 @@ class CrowdsecConnector(BaseConnector):
             action_result,
             params=None,
             headers={
-                "User-Agent": "crowdsec-splunk-soar/v1.0.0",
-                "x-api-key": self.get_config()["CROWDSEC_CTI_API_KEY"],
+                "User-Agent": CROWDSEC_USER_AGENT,
+                "x-api-key": self._apikey,
             },
         )
 
         if phantom.is_fail(ret_val):
             # the call to the 3rd party device or service failed, action result should contain all the error details
             # for now the return is commented out, but after implementation, return from here
-            self.save_progress("Call to CrowdSec CTI API failed.")
+            self.save_progress("Call to CrowdSec CTI API failed")
             return action_result.get_status()
 
         self.save_progress("Call to CrowdSec CTI API succeeded")
@@ -267,7 +282,12 @@ class CrowdsecConnector(BaseConnector):
         # that needs to be accessed across actions
         self._state = self.load_state()
 
+        if not isinstance(self._state, dict):
+            self.debug_print("Resetting the state file with the default format")
+            self._state = {"app_version": self.get_app_json().get("app_version")}
+
         # get the asset config
+        config = self.get_config()
         """
         # Access values in asset config by the name
 
@@ -278,8 +298,9 @@ class CrowdsecConnector(BaseConnector):
         optional_config_name = config.get('optional_config_name')
         """
 
-        self._base_url = "https://cti.api.crowdsec.net/v2"
-
+        self._base_url = CROWDSEC_BASE_URL
+        self._apikey = config["CROWDSEC_CTI_API_KEY"]
+        self._timeout = DEFAULT_TIMEOUT
         return phantom.APP_SUCCESS
 
     def finalize(self):
@@ -296,12 +317,14 @@ def main():
     argparser.add_argument("input_test_json", help="Input Test JSON file")
     argparser.add_argument("-u", "--username", help="username", required=False)
     argparser.add_argument("-p", "--password", help="password", required=False)
+    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None
 
     username = args.username
     password = args.password
+    verify = args.verify
 
     if username is not None and password is None:
         # User specified a username but not a password, so ask
@@ -314,7 +337,7 @@ def main():
             login_url = CrowdsecConnector._get_phantom_base_url() + "/login"
 
             print("Accessing the Login page")
-            r = requests.get(login_url, verify=False)
+            r = requests.get(login_url, verify=verify, timeout=DEFAULT_TIMEOUT)
             csrftoken = r.cookies["csrftoken"]
 
             data = dict()
@@ -327,7 +350,7 @@ def main():
             headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, verify=False, data=data, headers=headers)
+            r2 = requests.post(login_url, verify=verify, data=data, headers=headers, timeout=DEFAULT_TIMEOUT)
             session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
