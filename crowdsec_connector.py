@@ -13,9 +13,6 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-# Python 3 Compatibility imports
-from __future__ import print_function, unicode_literals
-
 import json
 
 # Phantom App imports
