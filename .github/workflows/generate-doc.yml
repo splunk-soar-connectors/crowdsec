@@ -13,4 +13,4 @@ jobs:
     steps:
      - uses: 'phantomcyber/dev-cicd-tools/github-actions/generate-doc@main'
        with:
-         GITHUB_TOKEN: ${{ secrets.github_token }}
+         GITHUB_TOKEN: ${{ secrets.SOAR_APPS_TOKEN }}
