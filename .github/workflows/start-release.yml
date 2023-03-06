@@ -10,4 +10,4 @@ jobs:
     steps:
      - uses: 'phantomcyber/dev-cicd-tools/github-actions/start-release@main'
        with:
-         GITHUB_TOKEN: ${{ secrets.SOAR_APPS_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.github_token }}
