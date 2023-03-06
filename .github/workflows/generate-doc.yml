@@ -5,6 +5,8 @@ on:
     paths:
       - '*.json'
       - 'readme.html'
+    branches-ignore:
+      - '^(HEAD detached at'
 jobs:
   generate-doc:
     runs-on: ubuntu-latest
