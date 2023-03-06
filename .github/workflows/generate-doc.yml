@@ -5,9 +5,6 @@ on:
     paths:
       - '*.json'
       - 'readme.html'
-    branches-ignore:
-      - next
-      - main
     tags-ignore:
       - '*-beta*'
 jobs:
