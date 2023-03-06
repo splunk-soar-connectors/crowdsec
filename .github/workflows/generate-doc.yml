@@ -5,6 +5,8 @@ on:
     paths:
       - '*.json'
       - 'readme.html'
+    tags-ignore:
+      - '*-beta*'
 jobs:
   generate-doc:
     runs-on: ubuntu-latest
