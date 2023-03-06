@@ -6,9 +6,10 @@ on:
       - '*.json'
       - 'readme.html'
     branches-ignore:
-      - '^(HEAD detached at'
       - next
       - main
+    tags-ignore:
+      - '*-beta*'
 jobs:
   generate-doc:
     runs-on: ubuntu-latest
