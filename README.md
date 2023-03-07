@@ -1,577 +1,103 @@
-<div id="doc">
-
+[comment]: # "Auto-generated SOAR connector documentation"
 # CrowdSec
 
 Publisher: CrowdSec  
-Contributors: N/A  
-App Version: 1.0.0
+Connector Version: 1\.0\.1  
 Product Vendor: CrowdSec  
 Product Name: CrowdSec  
-Product Version Supported (regex): ".*"  
+Product Version Supported (regex): "\.\*"  
+Minimum Product Version: 5\.5\.0  
 
-CrowdSec
+Splunk SOAR App which integrates with CrowdSec\. It provides the ability to lookup an IP address in CrowdSec's threat intelligence feed
 
-<html> <head></head> <body>Replace this text in the app's **readme.html** to contain more detailed information</body> </html> <style>tr.plain th { text-align: center; }</style>
+[comment]: # "File: README.md"
+[comment]: # "Copyright (c) 2023 CrowdSec"
+[comment]: # ""
+[comment]: # "Licensed under the Apache License, Version 2.0 (the 'License');"
+[comment]: # "you may not use this file except in compliance with the License."
+[comment]: # "You may obtain a copy of the License at"
+[comment]: # ""
+[comment]: # "    http://www.apache.org/licenses/LICENSE-2.0"
+[comment]: # ""
+[comment]: # "Unless required by applicable law or agreed to in writing, software distributed under"
+[comment]: # "the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,"
+[comment]: # "either express or implied. See the License for the specific language governing permissions"
+[comment]: # "and limitations under the License."
+[comment]: # ""
+
+
 
 ### Configuration Variables
-
-The below configuration variables are required for this App to operate on **CrowdSec**. These are specified when configuring an asset in Splunk SOAR.
-
-<table>
-
-<tbody>
-
-<tr class="plain">
-
-<th style="padding-right:5px;">VARIABLE</th>
-
-<th style="padding-right:5px;">REQUIRED</th>
-
-<th style="padding-right:5px;">TYPE</th>
-
-<th>DESCRIPTION</th>
-
-</tr>
-
-<tr>
-
-<td>**CROWDSEC_CTI_API_KEY**</td>
-
-<td>required</td>
-
-<td>string</td>
-
-<td>API key for CrowdSec CTI API</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-### Supported Actions
-
-[<span class="link">lookup ip</span>](#) - Check for the presence of an IP in a threat intelligence feed  
-[<span class="link">test connectivity</span>](#) - Validate the asset configuration for connectivity using supplied configuration  
-
-<a id="lookup-ip"></a>
-
-## action: 'lookup ip'
-
-Check for the presence of an IP in a threat intelligence feed
-
-Type: **investigate**
-
-Read only: **True**
-
-### Action Parameters
-
-<table>
-
-<tbody>
-
-<tr class="plain">
-
-<th style="padding-right:5px;">PARAMETER</th>
-
-<th style="padding-right:5px;">REQUIRED</th>
-
-<th style="padding-right:5px;">DESCRIPTION</th>
-
-<th style="padding-right:5px;">TYPE</th>
-
-<th>CONTAINS</th>
-
-</tr>
-
-<tr>
-
-<td>**ip**</td>
-
-<td>required</td>
-
-<td>IP to lookup</td>
-
-<td>string</td>
-
-<td><span class="highlight">ip</span></td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-### Action Output
-
-<table>
-
-<tbody>
-
-<tr class="plain">
-
-<th>DATA PATH</th>
-
-<th>TYPE</th>
-
-<th>CONTAINS</th>
-
-<th>EXAMPLE VALUES</th>
-
-</tr>
-
-<tr>
-
-<td>action_result.parameter.ip</td>
-
-<td>string</td>
-
-<td><span class="highlight">ip</span></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.status</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.message</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.ip_range_score</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.ip</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.ip_range</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.as_name</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.as_num</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.location.country</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.location.city</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.location.latitude</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.location.longitude</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.reverse_dns</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.behaviors.*.name</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.behaviors.*.label</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.behaviors.*.description</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.history.first_seen</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.history.last_seen</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.history.full_age</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.history.days_age</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.background_noise_score</td>
-
-<td>string</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.overall.aggressiveness</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.overall.threat</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.overall.trust</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.overall.anomaly</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.overall.total</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.last_day.aggressiveness</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.last_day.threat</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.last_day.trust</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.last_day.anomaly</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.last_day.total</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.last_week.aggressiveness</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.last_month.threat</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>action_result.data.*.scores.last_month.aggressiveness</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>summary.total_objects</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-<tr>
-
-<td>summary.total_objects_successful</td>
-
-<td>numeric</td>
-
-<td></td>
-
-<td></td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-<a id="test-connectivity"></a>
+The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a CrowdSec asset in SOAR.
+
+VARIABLE | REQUIRED | TYPE | DESCRIPTION
+-------- | -------- | ---- | -----------
+**CROWDSEC\_CTI\_API\_KEY** |  required  | string | API key for CrowdSec CTI API
+
+### Supported Actions  
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
+[lookup ip](#action-lookup-ip) - Check for the presence of an IP in a threat intelligence feed  
 
 ## action: 'test connectivity'
-
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test**
-
+Type: **test**  
 Read only: **True**
 
-### Action Parameters
-
+#### Action Parameters
 No parameters are required for this action
 
-### Action Output
+#### Action Output
+No Output  
 
-No Output
+## action: 'lookup ip'
+Check for the presence of an IP in a threat intelligence feed
 
-</div>
+Type: **investigate**  
+Read only: **True**
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**ip** |  required  | IP to lookup | string |  `ip` 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action\_result\.status | string |  |   success  failed 
+action\_result\.parameter\.ip | string |  `ip`  |  
+action\_result\.data\.\*\.as\_name | string |  |  
+action\_result\.data\.\*\.as\_num | string |  |  
+action\_result\.data\.\*\.background\_noise\_score | string |  |  
+action\_result\.data\.\*\.behaviors\.\*\.description | string |  |  
+action\_result\.data\.\*\.behaviors\.\*\.label | string |  |  
+action\_result\.data\.\*\.behaviors\.\*\.name | string |  |  
+action\_result\.data\.\*\.history\.days\_age | string |  |  
+action\_result\.data\.\*\.history\.first\_seen | string |  |  
+action\_result\.data\.\*\.history\.full\_age | string |  |  
+action\_result\.data\.\*\.history\.last\_seen | string |  |  
+action\_result\.data\.\*\.ip | string |  |  
+action\_result\.data\.\*\.ip\_range | string |  |  
+action\_result\.data\.\*\.ip\_range\_score | string |  |  
+action\_result\.data\.\*\.location\.city | string |  |  
+action\_result\.data\.\*\.location\.country | string |  |  
+action\_result\.data\.\*\.location\.latitude | string |  |  
+action\_result\.data\.\*\.location\.longitude | string |  |  
+action\_result\.data\.\*\.reverse\_dns | string |  |  
+action\_result\.data\.\*\.scores\.last\_day\.aggressiveness | numeric |  |  
+action\_result\.data\.\*\.scores\.last\_day\.anomaly | numeric |  |  
+action\_result\.data\.\*\.scores\.last\_day\.threat | numeric |  |  
+action\_result\.data\.\*\.scores\.last\_day\.total | numeric |  |  
+action\_result\.data\.\*\.scores\.last\_day\.trust | numeric |  |  
+action\_result\.data\.\*\.scores\.last\_month\.aggressiveness | numeric |  |  
+action\_result\.data\.\*\.scores\.last\_month\.threat | numeric |  |  
+action\_result\.data\.\*\.scores\.last\_week\.aggressiveness | numeric |  |  
+action\_result\.data\.\*\.scores\.overall\.aggressiveness | numeric |  |  
+action\_result\.data\.\*\.scores\.overall\.anomaly | numeric |  |  
+action\_result\.data\.\*\.scores\.overall\.threat | numeric |  |  
+action\_result\.data\.\*\.scores\.overall\.total | numeric |  |  
+action\_result\.data\.\*\.scores\.overall\.trust | numeric |  |  
+action\_result\.summary | string |  |  
+action\_result\.message | string |  |  
+summary\.total\_objects | numeric |  |  
+summary\.total\_objects\_successful | numeric |  |  
