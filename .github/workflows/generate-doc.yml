@@ -7,10 +7,13 @@ on:
       - 'readme.html'
     tags-ignore:
       - '*-beta*'
+    branches-ignore:
+      - next
+      - main
 jobs:
   generate-doc:
     runs-on: ubuntu-latest
     steps:
-     - uses: 'phantomcyber/dev-cicd-tools/github-actions/generate-doc@mpan/PAPP-29658-1'
+     - uses: 'phantomcyber/dev-cicd-tools/github-actions/generate-doc@main'
        with:
          GITHUB_TOKEN: ${{ secrets.SOAR_APPS_TOKEN }}
