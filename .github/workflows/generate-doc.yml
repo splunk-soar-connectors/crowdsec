@@ -11,6 +11,6 @@ jobs:
   generate-doc:
     runs-on: ubuntu-latest
     steps:
-     - uses: 'phantomcyber/dev-cicd-tools/github-actions/generate-doc@main'
+     - uses: 'phantomcyber/dev-cicd-tools/github-actions/generate-doc@mpan/PAPP-29658-1'
        with:
          GITHUB_TOKEN: ${{ secrets.SOAR_APPS_TOKEN }}
