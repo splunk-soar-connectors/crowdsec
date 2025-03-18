@@ -1,6 +1,6 @@
 # File: crowdsec_connector.py
 #
-# Copyright (c) 2023 CrowdSec
+# Copyright (c) 2023-2025 CrowdSec
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ class RetVal(tuple):
 class CrowdsecConnector(BaseConnector):
     def __init__(self):
         # Call the BaseConnectors init first
-        super(CrowdsecConnector, self).__init__()
+        super().__init__()
 
         self._state = None
 
@@ -50,9 +50,7 @@ class CrowdsecConnector(BaseConnector):
             return RetVal(phantom.APP_SUCCESS, {})
 
         return RetVal(
-            action_result.set_status(
-                phantom.APP_ERROR, "Empty response and no information in the header"
-            ),
+            action_result.set_status(phantom.APP_ERROR, "Empty response and no information in the header"),
             None,
         )
 
@@ -72,9 +70,7 @@ class CrowdsecConnector(BaseConnector):
         except Exception:
             error_text = "Cannot parse error details"
 
-        message = "Status Code: {0}. Data from server:\n{1}\n".format(
-            status_code, error_text
-        )
+        message = f"Status Code: {status_code}. Data from server:\n{error_text}\n"
 
         message = message.replace("{", "{{").replace("}", "}}")
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
@@ -85,11 +81,11 @@ class CrowdsecConnector(BaseConnector):
         try:
             resp_json = r.json()
         except Exception as e:
-            if r.url != "{}/check".format(CROWDSEC_BASE_URL):
+            if r.url != f"{CROWDSEC_BASE_URL}/check":
                 return RetVal(
                     action_result.set_status(
                         phantom.APP_ERROR,
-                        "Unable to parse JSON response. Error: {0}".format(str(e)),
+                        f"Unable to parse JSON response. Error: {e!s}",
                     ),
                     None,
                 )
@@ -99,9 +95,7 @@ class CrowdsecConnector(BaseConnector):
             return RetVal(phantom.APP_SUCCESS, resp_json)
 
         # You should process the error returned in the json
-        message = "Error from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
-        )
+        message = "Error from server. Status Code: {} Data from server: {}".format(r.status_code, r.text.replace("{", "{{").replace("}", "}}"))
 
         if r.status_code == 429:
             message = "Quota exceeded for CrowdSec CTI API. Please visit https://www.crowdsec.net/pricing to upgrade your plan."
@@ -133,7 +127,7 @@ class CrowdsecConnector(BaseConnector):
             return self._process_empty_response(r, action_result)
 
         # everything else is actually an error at this point
-        message = "Can't process response from server. Status Code: {0} Data from server: {1}".format(
+        message = "Can't process response from server. Status Code: {} Data from server: {}".format(
             r.status_code, r.text.replace("{", "{{").replace("}", "}}")
         )
 
@@ -150,14 +144,12 @@ class CrowdsecConnector(BaseConnector):
             request_func = getattr(requests, method)
         except AttributeError:
             return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, "Invalid method: {0}".format(method)
-                ),
+                action_result.set_status(phantom.APP_ERROR, f"Invalid method: {method}"),
                 resp_json,
             )
 
         # Create a URL to connect to
-        url = "{}{}".format(self._base_url, endpoint)
+        url = f"{self._base_url}{endpoint}"
 
         try:
             r = request_func(
@@ -171,7 +163,7 @@ class CrowdsecConnector(BaseConnector):
             return RetVal(
                 action_result.set_status(
                     phantom.APP_ERROR,
-                    "Error Connecting to server. Details: {0}".format(str(e)),
+                    f"Error Connecting to server. Details: {e!s}",
                 ),
                 resp_json,
             )
@@ -213,9 +205,7 @@ class CrowdsecConnector(BaseConnector):
     def _handle_lookup_ip(self, param):
         # Implement the handler here
         # use self.save_progress(...) to send progress messages back to the platform
-        self.save_progress(
-            "In action handler for: {0}".format(self.get_action_identifier())
-        )
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -316,7 +306,7 @@ def main():
     argparser.add_argument("input_test_json", help="Input Test JSON file")
     argparser.add_argument("-u", "--username", help="username", required=False)
     argparser.add_argument("-p", "--password", help="password", required=False)
-    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
+    argparser.add_argument("-v", "--verify", action="store_true", help="verify", required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None

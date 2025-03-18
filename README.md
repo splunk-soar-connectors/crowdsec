@@ -1,103 +1,109 @@
-[comment]: # "Auto-generated SOAR connector documentation"
 # CrowdSec
 
-Publisher: CrowdSec  
-Connector Version: 1\.0\.1  
-Product Vendor: CrowdSec  
-Product Name: CrowdSec  
-Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 5\.5\.0  
+Publisher: CrowdSec \
+Connector Version: 1.0.1 \
+Product Vendor: CrowdSec \
+Product Name: CrowdSec \
+Minimum Product Version: 5.5.0
 
-Splunk SOAR App which integrates with CrowdSec\. It provides the ability to lookup an IP address in CrowdSec's threat intelligence feed
+Splunk SOAR App which integrates with CrowdSec. It provides the ability to lookup an IP address in CrowdSec's threat intelligence feed
 
-[comment]: # "File: README.md"
-[comment]: # "Copyright (c) 2023 CrowdSec"
-[comment]: # ""
-[comment]: # "Licensed under the Apache License, Version 2.0 (the 'License');"
-[comment]: # "you may not use this file except in compliance with the License."
-[comment]: # "You may obtain a copy of the License at"
-[comment]: # ""
-[comment]: # "    http://www.apache.org/licenses/LICENSE-2.0"
-[comment]: # ""
-[comment]: # "Unless required by applicable law or agreed to in writing, software distributed under"
-[comment]: # "the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,"
-[comment]: # "either express or implied. See the License for the specific language governing permissions"
-[comment]: # "and limitations under the License."
-[comment]: # ""
+### Configuration variables
 
-
-
-### Configuration Variables
-The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a CrowdSec asset in SOAR.
+This table lists the configuration variables required to operate CrowdSec. These variables are specified when configuring a CrowdSec asset in Splunk SOAR.
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
-**CROWDSEC\_CTI\_API\_KEY** |  required  | string | API key for CrowdSec CTI API
+**CROWDSEC_CTI_API_KEY** | required | string | API key for CrowdSec CTI API |
 
-### Supported Actions  
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
-[lookup ip](#action-lookup-ip) - Check for the presence of an IP in a threat intelligence feed  
+### Supported Actions
+
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
+[lookup ip](#action-lookup-ip) - Check for the presence of an IP in a threat intelligence feed
 
 ## action: 'test connectivity'
+
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test**  
+Type: **test** \
 Read only: **True**
 
 #### Action Parameters
+
 No parameters are required for this action
 
 #### Action Output
-No Output  
+
+No Output
 
 ## action: 'lookup ip'
+
 Check for the presence of an IP in a threat intelligence feed
 
-Type: **investigate**  
+Type: **investigate** \
 Read only: **True**
 
 #### Action Parameters
+
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**ip** |  required  | IP to lookup | string |  `ip` 
+**ip** | required | IP to lookup | string | `ip` |
 
 #### Action Output
+
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action\_result\.status | string |  |   success  failed 
-action\_result\.parameter\.ip | string |  `ip`  |  
-action\_result\.data\.\*\.as\_name | string |  |  
-action\_result\.data\.\*\.as\_num | string |  |  
-action\_result\.data\.\*\.background\_noise\_score | string |  |  
-action\_result\.data\.\*\.behaviors\.\*\.description | string |  |  
-action\_result\.data\.\*\.behaviors\.\*\.label | string |  |  
-action\_result\.data\.\*\.behaviors\.\*\.name | string |  |  
-action\_result\.data\.\*\.history\.days\_age | string |  |  
-action\_result\.data\.\*\.history\.first\_seen | string |  |  
-action\_result\.data\.\*\.history\.full\_age | string |  |  
-action\_result\.data\.\*\.history\.last\_seen | string |  |  
-action\_result\.data\.\*\.ip | string |  |  
-action\_result\.data\.\*\.ip\_range | string |  |  
-action\_result\.data\.\*\.ip\_range\_score | string |  |  
-action\_result\.data\.\*\.location\.city | string |  |  
-action\_result\.data\.\*\.location\.country | string |  |  
-action\_result\.data\.\*\.location\.latitude | string |  |  
-action\_result\.data\.\*\.location\.longitude | string |  |  
-action\_result\.data\.\*\.reverse\_dns | string |  |  
-action\_result\.data\.\*\.scores\.last\_day\.aggressiveness | numeric |  |  
-action\_result\.data\.\*\.scores\.last\_day\.anomaly | numeric |  |  
-action\_result\.data\.\*\.scores\.last\_day\.threat | numeric |  |  
-action\_result\.data\.\*\.scores\.last\_day\.total | numeric |  |  
-action\_result\.data\.\*\.scores\.last\_day\.trust | numeric |  |  
-action\_result\.data\.\*\.scores\.last\_month\.aggressiveness | numeric |  |  
-action\_result\.data\.\*\.scores\.last\_month\.threat | numeric |  |  
-action\_result\.data\.\*\.scores\.last\_week\.aggressiveness | numeric |  |  
-action\_result\.data\.\*\.scores\.overall\.aggressiveness | numeric |  |  
-action\_result\.data\.\*\.scores\.overall\.anomaly | numeric |  |  
-action\_result\.data\.\*\.scores\.overall\.threat | numeric |  |  
-action\_result\.data\.\*\.scores\.overall\.total | numeric |  |  
-action\_result\.data\.\*\.scores\.overall\.trust | numeric |  |  
-action\_result\.summary | string |  |  
-action\_result\.message | string |  |  
-summary\.total\_objects | numeric |  |  
-summary\.total\_objects\_successful | numeric |  |  
+action_result.status | string | | success failed |
+action_result.parameter.ip | string | `ip` | |
+action_result.data.\*.as_name | string | | |
+action_result.data.\*.as_num | string | | |
+action_result.data.\*.background_noise_score | string | | |
+action_result.data.\*.behaviors.\*.description | string | | |
+action_result.data.\*.behaviors.\*.label | string | | |
+action_result.data.\*.behaviors.\*.name | string | | |
+action_result.data.\*.history.days_age | string | | |
+action_result.data.\*.history.first_seen | string | | |
+action_result.data.\*.history.full_age | string | | |
+action_result.data.\*.history.last_seen | string | | |
+action_result.data.\*.ip | string | | |
+action_result.data.\*.ip_range | string | | |
+action_result.data.\*.ip_range_score | string | | |
+action_result.data.\*.location.city | string | | |
+action_result.data.\*.location.country | string | | |
+action_result.data.\*.location.latitude | string | | |
+action_result.data.\*.location.longitude | string | | |
+action_result.data.\*.reverse_dns | string | | |
+action_result.data.\*.scores.last_day.aggressiveness | numeric | | |
+action_result.data.\*.scores.last_day.anomaly | numeric | | |
+action_result.data.\*.scores.last_day.threat | numeric | | |
+action_result.data.\*.scores.last_day.total | numeric | | |
+action_result.data.\*.scores.last_day.trust | numeric | | |
+action_result.data.\*.scores.last_month.aggressiveness | numeric | | |
+action_result.data.\*.scores.last_month.threat | numeric | | |
+action_result.data.\*.scores.last_week.aggressiveness | numeric | | |
+action_result.data.\*.scores.overall.aggressiveness | numeric | | |
+action_result.data.\*.scores.overall.anomaly | numeric | | |
+action_result.data.\*.scores.overall.threat | numeric | | |
+action_result.data.\*.scores.overall.total | numeric | | |
+action_result.data.\*.scores.overall.trust | numeric | | |
+action_result.summary | string | | |
+action_result.message | string | | |
+summary.total_objects | numeric | | |
+summary.total_objects_successful | numeric | | |
+
+______________________________________________________________________
+
+Auto-generated Splunk SOAR Connector documentation.
+
+Copyright 2025 Splunk Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.

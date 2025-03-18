@@ -10,7 +10,7 @@
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "CrowdSec",
-    "license": "Copyright (c) 2023 CrowdSec",
+    "license": "Copyright (c) 2023-2025 CrowdSec",
     "app_version": "1.0.1",
     "utctime_updated": "2023-01-26T06:55:03.160848Z",
     "package_name": "phantom_crowdsec",
