@@ -1,16 +1,17 @@
 {% extends 'widgets/widget_template.html' %}
 {% load custom_template %}
-
-{% block custom_title_prop %}{% if title_logo %}style="background-size: auto 60%; background-position: 50%; background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"{% endif %}{% endblock %}
+{% block custom_title_prop %}
+  {% if title_logo %}
+    style="background-size: auto 60%; background-position: 50%; background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"
+  {% endif %}
+{% endblock %}
 {% block title1 %}{{ title1 }}{% endblock %}
 {% block title2 %}{{ title2 }}{% endblock %}
-{% block custom_tools %}
-{% endblock %}
-
-{% block widget_content %} <!-- Main Start Block -->
-
-<!-- File: crowdsec_lookup_ip.html
-  Copyright (c) 2023 CrowdSec
+{% block custom_tools %}{% endblock %}
+{% block widget_content %}
+  <!-- Main Start Block -->
+  <!-- File: crowdsec_lookup_ip.html
+  Copyright (c) 2023-2025 CrowdSec
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,8 +24,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
 either express or implied. See the License for the specific language governing permissions
 and limitations under the License.
 -->
-<style>
-
+  <style>
     .crowdsec a:hover {
         text-decoration:underline;
     }
@@ -74,277 +74,195 @@ and limitations under the License.
     }
 
 
-</style>
-
-<div class="crowdsec" style="overflow: auto; width: 100% height: 100%; padding-left:10px; padding-right:10px">
+  </style>
+  <div class="crowdsec"
+       style="overflow: auto;
+              width: 100% height: 100%;
+              padding-left:10px;
+              padding-right:10px">
     <!-- Main Div -->
-
-    {% for result in results %} <!-- loop for each result -->
-    {% if not result.data %}
-    <h4 class="wf-h4-style">No data found</h4>
-    {% else %}
-    {% for item in result.data %}
-        <div class="results">
-        <h4 class="wf-h4-style">Location</h4>
+    {% for result in results %}
+      <!-- loop for each result -->
+      {% if not result.data %}
+        <h4 class="wf-h4-style">No data found</h4>
+      {% else %}
+        {% for item in result.data %}
+          <div class="results">
+            <h4 class="wf-h4-style">Location</h4>
             <table class="phantom-table dataTable">
-                <table class="phantom-table dataTable">
-                    <thead>
-                        <th class="widget-th">Country Code</th>
-                        <th class="widget-th">City</th>
-                        <th class="widget-th">Latitude</th>
-                        <th class="widget-th">Longitude</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="widget-td">
-                                {{ item.location.country }}
-                            </td>
-                            <td class="widget-td">
-                                {{ item.location.city }}
-                            </td>
-                            <td class="widget-td">
-                                {{ item.location.latitude }}
-                            </td>
-                            <td class="widget-td">
-                                {{ item.location.longitude }}
-                            </td>
-                    </tbody>
-                </table>
-            </div>
-        <div class="results">
-        <h4 class="wf-h4-style">Network Origin</h4>
-            <table class="phantom-table dataTable">
+              <table class="phantom-table dataTable">
                 <thead>
+                  <th class="widget-th">Country Code</th>
+                  <th class="widget-th">City</th>
+                  <th class="widget-th">Latitude</th>
+                  <th class="widget-th">Longitude</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="widget-td">{{ item.location.country }}</td>
+                    <td class="widget-td">{{ item.location.city }}</td>
+                    <td class="widget-td">{{ item.location.latitude }}</td>
+                    <td class="widget-td">{{ item.location.longitude }}</td>
+                  </tbody>
+                </table>
+              </div>
+              <div class="results">
+                <h4 class="wf-h4-style">Network Origin</h4>
+                <table class="phantom-table dataTable">
+                  <thead>
                     <th class="widget-th">IP Range</th>
                     <th class="widget-th">Reverse DNS</th>
                     <th class="widget-th">AS Name</th>
                     <th class="widget-th">AS Number</th>
-                </thead>
-                <tbody>
+                  </thead>
+                  <tbody>
                     <tr>
+                      <td class="widget-td">{{ item.ip_range }}</td>
+                      <td class="widget-td">{{ item.reverse_dns }}</td>
+                      <td class="widget-td">{{ item.as_name }}</td>
+                      <td class="widget-td">{{ item.as_num }}</td>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="results">
+                  <h4 class="wf-h4-style">Attack Details</h4>
+                  <table class="phantom-table dataTable">
+                    <thead>
+                      <th class="widget-th">Scenarios</th>
+                      <th class="widget-th">Classifications</th>
+                      <th class="widget-th">False Positives</th>
+                    </thead>
+                    <tbody>
+                      <tr>
                         <td class="widget-td">
-                            {{ item.ip_range }}
+                          <table class="phantom-table dataTable">
+                            <tbody>
+                              {% for scenario in item.attack_details %}
+                                <tr>
+                                  <td class="widget-td">{{ scenario.name }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
                         </td>
                         <td class="widget-td">
-                            {{ item.reverse_dns }}
+                          <table class="phantom-table dataTable">
+                            <tbody>
+                              {% for classification in item.classifications.classifications %}
+                                <tr>
+                                  <td class="widget-td">{{ classification.name }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
                         </td>
                         <td class="widget-td">
-                            {{ item.as_name }}
+                          <table class="phantom-table dataTable">
+                            <tbody>
+                              {% for false_positive in item.classifications.false_positives %}
+                                <tr>
+                                  <td class="widget-td">{{ false_positive.name }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
                         </td>
-                        <td class="widget-td">
-                            {{ item.as_num }}
-                        </td>
-                </tbody>
-            </table>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="results">
+                  <h4 class="wf-h4-style">Scores</h4>
+                  <h3 class="wf-h3-style">Background Noise Score: {{ item.background_noise_score }}</h3>
+                  <h3 class="wf-h3-style">IP Range Score: {{ item.ip_range_score }}</h3>
+                  <table class="phantom-table dataTable">
+                    <thead>
+                      <th class="widget-th"></th>
+                      <th class="widget-th">Aggressiveness</th>
+                      <th class="widget-th">Threat</th>
+                      <th class="widget-th">Trust</th>
+                      <th class="widget-th">Anomaly</th>
+                      <th class="widget-th">Total</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="widget-td">Overall</td>
+                        <td class="widget-td">{{ item.scores.overall.aggressiveness }}</td>
+                        <td class="widget-td">{{ item.scores.overall.threat }}</td>
+                        <td class="widget-td">{{ item.scores.overall.trust }}</td>
+                        <td class="widget-td">{{ item.scores.overall.anomaly }}</td>
+                        <td class="widget-td">{{ item.scores.overall.total }}</td>
+                      </tr>
+                      <tr>
+                        <td class="widget-td">Last Day</td>
+                        <td class="widget-td">{{ item.scores.last_day.aggressiveness }}</td>
+                        <td class="widget-td">{{ item.scores.last_day.threat }}</td>
+                        <td class="widget-td">{{ item.scores.last_day.trust }}</td>
+                        <td class="widget-td">{{ item.scores.last_day.anomaly }}</td>
+                        <td class="widget-td">{{ item.scores.last_day.total }}</td>
+                      </tr>
+                      <tr>
+                        <td class="widget-td">Last Week</td>
+                        <td class="widget-td">{{ item.scores.last_week.aggressiveness }}</td>
+                        <td class="widget-td">{{ item.scores.last_week.threat }}</td>
+                        <td class="widget-td">{{ item.scores.last_week.trust }}</td>
+                        <td class="widget-td">{{ item.scores.last_week.anomaly }}</td>
+                        <td class="widget-td">{{ item.scores.last_week.total }}</td>
+                      </tr>
+                      <tr>
+                        <td class="widget-td">Last Month</td>
+                        <td class="widget-td">{{ item.scores.last_month.aggressiveness }}</td>
+                        <td class="widget-td">{{ item.scores.last_month.threat }}</td>
+                        <td class="widget-td">{{ item.scores.last_month.trust }}</td>
+                        <td class="widget-td">{{ item.scores.last_month.anomaly }}</td>
+                        <td class="widget-td">{{ item.scores.last_month.total }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="results">
+                  <h4 class="wf-h4-style">History</h4>
+                  <table>
+                    <thead>
+                      <th class="widget-th">Last Seen</th>
+                      <th class="widget-th">First Seen</th>
+                      <th class="widget-th">Last Updated</th>
+                      <th class="widget-th">Full Age</th>
+                      <th class="widget-th">Days Age</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="widget-td">{{ item.history.last_seen }}</td>
+                        <td class="widget-td">{{ item.history.first_seen }}</td>
+                        <td class="widget-td">{{ item.history.last_updated }}</td>
+                        <td class="widget-td">{{ item.history.full_age }}</td>
+                        <td class="widget-td">{{ item.history.days_age }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="results">
+                  <h4 class="wf-h4-style">Target Countries</h4>
+                  <table class="phantom-table dataTable">
+                    <thead>
+                      <th class="widget-th">Country</th>
+                      <th class="widget-th">Attack Percentage</th>
+                    </thead>
+                    <tbody>
+                      {% for country, count in item.target_countries.items %}
+                        <tr>
+                          <td class="widget-td">{{ country }}</td>
+                          <td class="widget-td">{{ count }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
         </div>
-        <div class="results">
-        <h4 class="wf-h4-style">Attack Details</h4>
-            <table class="phantom-table dataTable">
-                <thead>
-                    <th class="widget-th">Scenarios</th>
-                    <th class="widget-th">Classifications</th>
-                    <th class="widget-th">False Positives</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="widget-td">
-                            <table class="phantom-table dataTable">
-                                <tbody>
-                                    {% for scenario in item.attack_details %}
-                                    <tr>
-                                        <td class="widget-td">
-                                            {{ scenario.name }}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </td>
-                        <td class="widget-td">
-                            <table class="phantom-table dataTable">
-                                <tbody>
-                                    {% for classification in item.classifications.classifications %}
-                                    <tr>
-                                        <td class="widget-td">
-                                            {{ classification.name }}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </td>
-                        <td class="widget-td">
-                            <table class="phantom-table dataTable">
-                                <tbody>
-                                    {% for false_positive in item.classifications.false_positives %}
-                                    <tr>
-                                        <td class="widget-td">
-                                            {{ false_positive.name }}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-            <div class="results">
-            <h4 class="wf-h4-style">Scores</h4>
-            <h3 class="wf-h3-style">Background Noise Score: {{ item.background_noise_score }}</h3>
-            <h3 class="wf-h3-style">IP Range Score: {{ item.ip_range_score }}</h3>
-            <table class="phantom-table dataTable">
-                <thead>
-                    <th class="widget-th"></th>
-                    <th class="widget-th">Aggressiveness</th>
-                    <th class="widget-th">Threat</th>
-                    <th class="widget-th">Trust</th>
-                    <th class="widget-th">Anomaly</th>
-                    <th class="widget-th">Total</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="widget-td">
-                            Overall
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.overall.aggressiveness }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.overall.threat }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.overall.trust }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.overall.anomaly }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.overall.total }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="widget-td">
-                            Last Day
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_day.aggressiveness }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_day.threat }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_day.trust }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_day.anomaly }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_day.total }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="widget-td">
-                            Last Week
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_week.aggressiveness }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_week.threat }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_week.trust }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_week.anomaly }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_week.total }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="widget-td">
-                            Last Month
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_month.aggressiveness }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_month.threat }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_month.trust }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_month.anomaly }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.scores.last_month.total }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="results">
-            <h4 class="wf-h4-style">History</h4>
-            <table>
-                <thead>
-                    <th class="widget-th">Last Seen</th>
-                    <th class="widget-th">First Seen</th>
-                    <th class="widget-th">Last Updated</th>
-                    <th class="widget-th">Full Age</th>
-                    <th class="widget-th">Days Age</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="widget-td">
-                            {{ item.history.last_seen }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.history.first_seen }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.history.last_updated }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.history.full_age }}
-                        </td>
-                        <td class="widget-td">
-                            {{ item.history.days_age }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="results">
-
-            <h4 class="wf-h4-style">Target Countries</h4>
-            <table class="phantom-table dataTable">
-                <thead>
-                    <th class="widget-th">Country</th>
-                    <th class="widget-th">Attack Percentage</th>
-                </thead>
-                <tbody>
-                    {% for country, count in item.target_countries.items %}
-                    <tr>
-                        <td class="widget-td">
-                            {{ country }}
-                        </td>
-                        <td class="widget-td">
-                            {{ count }}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endfor %}
-	{% endif %}
-    {% endfor %}
-</div>
-<script>
+        <script>
 $.extend(true, $.fn.dataTable.defaults, {
     "searching": true,
     "bLengthChange": false,
@@ -363,6 +281,5 @@ $.extend(true, $.fn.dataTable.defaults, {
   });
   $('.dataTable').DataTable();
 
-</script>
-
-{% endblock %}
+        </script>
+      {% endblock %}
