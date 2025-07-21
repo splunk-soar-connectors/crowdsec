@@ -7,7 +7,7 @@
     "logo": "logo_crowdsec.svg",
     "logo_dark": "logo_crowdsec_dark.svg",
     "product_name": "CrowdSec",
-    "python_version": "3",
+    "python_version": ["3.9", "3.13"],
     "product_version_regex": ".*",
     "publisher": "CrowdSec",
     "license": "Copyright (c) 2023-2025 CrowdSec",
