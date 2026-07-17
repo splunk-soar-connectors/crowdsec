@@ -10,7 +10,7 @@
     "python_version": "3.9, 3.13",
     "product_version_regex": ".*",
     "publisher": "CrowdSec",
-    "license": "Copyright (c) 2023-2025 CrowdSec",
+    "license": "Copyright (c) 2023-2026 CrowdSec",
     "app_version": "1.0.2",
     "utctime_updated": "2025-04-28T19:19:40.348186Z",
     "package_name": "phantom_crowdsec",
@@ -297,6 +297,14 @@
         }
     ],
     "pip39_dependencies": {
+        "wheel": [
+            {
+                "module": "chardet",
+                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
+            }
+        ]
+    },
+    "pip313_dependencies": {
         "wheel": [
             {
                 "module": "chardet",
