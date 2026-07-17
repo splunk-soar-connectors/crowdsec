@@ -19,6 +19,13 @@
     "fips_compliant": false,
     "app_wizard_version": "1.0.0",
     "configuration": {
+        "verify_server_cert": {
+            "description": "Verify server certificate",
+            "data_type": "boolean",
+            "required": false,
+            "default": true,
+            "order": 1
+        },
         "CROWDSEC_CTI_API_KEY": {
             "description": "API key for CrowdSec CTI API",
             "data_type": "string",
