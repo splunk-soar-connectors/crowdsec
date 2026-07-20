@@ -1,9 +1,9 @@
 # CrowdSec
 
-Publisher: CrowdSec \
-Connector Version: 1.0.2 \
-Product Vendor: CrowdSec \
-Product Name: CrowdSec \
+Publisher: CrowdSec <br>
+Connector Version: 1.0.2 <br>
+Product Vendor: CrowdSec <br>
+Product Name: CrowdSec <br>
 Minimum Product Version: 5.5.0
 
 Splunk SOAR App which integrates with CrowdSec. It provides the ability to lookup an IP address in CrowdSec's threat intelligence feed
@@ -14,18 +14,19 @@ This table lists the configuration variables required to operate CrowdSec. These
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
+**verify_server_cert** | optional | boolean | Verify server certificate |
 **CROWDSEC_CTI_API_KEY** | required | string | API key for CrowdSec CTI API |
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
 [lookup ip](#action-lookup-ip) - Check for the presence of an IP in a threat intelligence feed
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -40,7 +41,7 @@ No Output
 
 Check for the presence of an IP in a threat intelligence feed
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -95,7 +96,7 @@ ______________________________________________________________________
 
 Auto-generated Splunk SOAR Connector documentation.
 
-Copyright 2025 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

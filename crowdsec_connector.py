@@ -1,6 +1,6 @@
 # File: crowdsec_connector.py
 #
-# Copyright (c) 2023-2025 CrowdSec
+# Copyright (c) 2023-2026 CrowdSec
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -155,7 +155,7 @@ class CrowdsecConnector(BaseConnector):
             r = request_func(
                 url,
                 # auth=(username, password),  # basic authentication
-                verify=config.get("verify_server_cert", False),
+                verify=config.get("verify_server_cert", True),
                 timeout=self._timeout,
                 **kwargs,
             )
