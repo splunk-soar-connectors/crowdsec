@@ -1,7 +1,7 @@
 # CrowdSec
 
 Publisher: CrowdSec <br>
-Connector Version: 1.0.2 <br>
+Connector Version: 1.0.3 <br>
 Product Vendor: CrowdSec <br>
 Product Name: CrowdSec <br>
 Minimum Product Version: 5.5.0
