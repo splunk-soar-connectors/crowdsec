@@ -28,7 +28,7 @@
         },
         "CROWDSEC_CTI_API_KEY": {
             "description": "API key for CrowdSec CTI API",
-            "data_type": "string",
+            "data_type": "password",
             "required": true,
             "order": 0
         }
