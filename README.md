@@ -15,7 +15,7 @@ This table lists the configuration variables required to operate CrowdSec. These
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
 **verify_server_cert** | optional | boolean | Verify server certificate |
-**CROWDSEC_CTI_API_KEY** | required | string | API key for CrowdSec CTI API |
+**CROWDSEC_CTI_API_KEY** | required | password | API key for CrowdSec CTI API |
 
 ### Supported Actions
 
